@@ -19,6 +19,7 @@ export const addToCart = async (req, res) => {
 
     const food = await Food.findById(foodId);
 
+
     if (!food) {
       return res.status(404).json({
         success: false,

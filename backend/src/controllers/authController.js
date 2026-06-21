@@ -53,8 +53,8 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token =
-      generateToken(user._id);
+  const token =
+  generateToken(user);
 
     res.status(201).json({
       success: true,
@@ -106,8 +106,8 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const token =
-      generateToken(user._id);
+const token =
+  generateToken(user);
 
     res.status(200).json({
       success: true,

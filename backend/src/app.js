@@ -13,7 +13,8 @@ import favoriteRoutes from "./routes/favoriteRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
-
+import addressRoutes from "./routes/addressRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -76,9 +77,15 @@ app.use(
   "/api/reviews",
   reviewRoutes
 );
+app.use(
+  "/api/address",
+  addressRoutes
+);
 
-
-
+app.use(
+  "/api/admin",
+  adminRoutes
+);
 /* ========================================
    404 HANDLER
 ======================================== */

@@ -13,7 +13,25 @@ const orderSchema = new mongoose.Schema(
       ref: "Restaurant",
       required: true,
     },
+deliveryAddress: {
+  fullName: String,
 
+  phone: String,
+
+  houseNumber: String,
+
+  street: String,
+
+  landmark: String,
+
+  city: String,
+
+  state: String,
+
+  pincode: String,
+
+  addressType: String,
+},
     items: [
       {
         food: {
@@ -43,7 +61,17 @@ const orderSchema = new mongoose.Schema(
       enum: ["Pending", "Paid"],
       default: "Pending",
     },
+razorpayOrderId: {
+  type: String,
+},
 
+razorpayPaymentId: {
+  type: String,
+},
+
+razorpaySignature: {
+  type: String,
+},
     orderStatus: {
       type: String,
       enum: [
@@ -56,6 +84,18 @@ const orderSchema = new mongoose.Schema(
       ],
       default: "Placed",
     },
+    statusTimeline: [
+  {
+    status: {
+      type: String,
+    },
+
+    time: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+],
   },
   {
     timestamps: true,

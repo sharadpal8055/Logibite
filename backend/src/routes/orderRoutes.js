@@ -7,11 +7,18 @@ import {
   createRazorpayOrder,
   verifyPayment,
   getUserOrders,
+  getOrderById,
   updateOrderStatus,
+  cancelOrder,
+  checkout
 } from "../controllers/orderController.js";
 
 const router = express.Router();
-
+router.get(
+  "/checkout",
+  authMiddleware,
+  checkout
+);
 router.post(
   "/cod",
   authMiddleware,
@@ -35,7 +42,16 @@ router.get(
   authMiddleware,
   getUserOrders
 );
-
+router.get(
+  "/:id",
+  authMiddleware,
+  getOrderById
+);
+router.patch(
+  "/cancel/:id",
+  authMiddleware,
+  cancelOrder
+);
 router.put(
   "/status/:id",
   updateOrderStatus
