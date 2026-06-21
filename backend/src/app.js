@@ -10,10 +10,10 @@ from "./routes/restaurantRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import favoriteRoutes from "./routes/favoriteRoutes.js";
 // import userRoutes from "./routes/userRoutes.js";
-
+import aiRoutes from "./routes/aiRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
-// import reviewRoutes from "./routes/reviewRoutes.js";
-// import aiRoutes from "./routes/aiRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
+
 
 const app = express();
 
@@ -70,10 +70,14 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/favorites", favoriteRoutes);
 
 app.use("/api/orders", orderRoutes);
+app.use("/api/ai", aiRoutes);
 
-// app.use("/api/reviews", reviewRoutes);
+app.use(
+  "/api/reviews",
+  reviewRoutes
+);
 
-// app.use("/api/ai", aiRoutes);
+
 
 /* ========================================
    404 HANDLER
