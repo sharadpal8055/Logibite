@@ -57,20 +57,36 @@ const foodSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-     restaurant: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "Restaurant",
-  required: true,
-},
+
+    // Inventory
+    stock: {
+      type: Number,
+      default: 100,
+    },
+
+    // Packaging charge per item
+    packagingCharge: {
+      type: Number,
+      default: 10,
+    },
+
+    // GST percentage
+    gstPercentage: {
+      type: Number,
+      default: 5,
+    },
+
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+      required: true,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-const Food = mongoose.model(
-  "Food",
-  foodSchema
-);
+const Food = mongoose.model("Food", foodSchema);
 
 export default Food;
