@@ -238,3 +238,124 @@ export const updateOrderStatusAdmin = async (
 
   }
 };
+/* ==========================================
+   Dashboard Statistics
+========================================== */
+
+export const getDashboardStatistics =
+  async (req, res) => {
+    try {
+
+      const totalOrders =
+        await Order.countDocuments();
+
+      const pendingOrders =
+        await Order.countDocuments({
+          orderStatus: "Placed",
+        });
+
+      const preparingOrders =
+        await Order.countDocuments({
+          orderStatus: "Preparing",
+        });
+
+      const pickedUpOrders =
+        await Order.countDocuments({
+          orderStatus: "Picked Up",
+        });
+
+      const onTheWayOrders =
+        await Order.countDocuments({
+          orderStatus: "On The Way",
+        });
+
+      const deliveredOrders =
+        await Order.countDocuments({
+          orderStatus: "Delivered",
+        });
+
+      const cancelledOrders =
+        await Order.countDocuments({
+          orderStatus: "Cancelled",
+        });
+
+      const codOrders =
+        await Order.countDocuments({
+          paymentMethod: "COD",
+        });
+
+      const razorpayOrders =
+        await Order.countDocuments({
+          paymentMethod: "Razorpay",
+        });
+
+      const paidOrders =
+        await Order.countDocuments({
+          paymentStatus: "Paid",
+        });
+
+      const pendingPayments =
+        await Order.countDocuments({
+          paymentStatus: "Pending",
+        });
+
+      const revenue =
+        await Order.aggregate([
+          {
+            $match: {
+              paymentStatus: "Paid",
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalRevenue: {
+                $sum: "$totalAmount",
+              },
+            },
+          },
+        ]);
+
+      res.status(200).json({
+        success: true,
+
+        statistics: {
+          totalOrders,
+
+          pendingOrders,
+
+          preparingOrders,
+
+          pickedUpOrders,
+
+          onTheWayOrders,
+
+          deliveredOrders,
+
+          cancelledOrders,
+
+          totalRevenue:
+            revenue.length
+              ? revenue[0]
+                  .totalRevenue
+              : 0,
+
+          codOrders,
+
+          razorpayOrders,
+
+          paidOrders,
+
+          pendingPayments,
+        },
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+
+    }
+  };

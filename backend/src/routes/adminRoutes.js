@@ -7,6 +7,7 @@ import {
   getAllOrders,
   getOrderByIdAdmin,
     updateOrderStatusAdmin,
+    getDashboardStatistics,
 } from "../controllers/adminController.js";
 
 const router = express.Router();
@@ -14,7 +15,12 @@ const router = express.Router();
 /* ==========================================
    Admin Routes
 ========================================== */
-
+router.get(
+  "/dashboard",
+  authMiddleware,
+  adminMiddleware,
+  getDashboardStatistics
+);
 router.get(
   "/orders",
   authMiddleware,
