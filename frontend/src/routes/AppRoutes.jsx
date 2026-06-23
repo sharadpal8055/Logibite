@@ -7,6 +7,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import RestaurantDetails from "../pages/RestaurantDetails";
+import Cart from "../pages/Cart";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
   return (
@@ -31,7 +34,7 @@ function AppRoutes() {
           element={<Register />}
         />
 
-        {/* Common Layout */}
+        {/* Layout Routes */}
 
         <Route element={<Layout />}>
 
@@ -40,12 +43,22 @@ function AppRoutes() {
             element={<Home />}
           />
 
+          <Route
+            path="/restaurants/:id"
+            element={<RestaurantDetails />}
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
         </Route>
-<Route
-    path="/restaurants/:id"
-    element={<RestaurantDetails />}
- 
-/>
+
       </Routes>
 
     </BrowserRouter>

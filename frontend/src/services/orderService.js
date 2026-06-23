@@ -1,19 +1,21 @@
 import api from "./api";
 
+// Validate checkout
 export const checkout = () =>
-  api.get(
-    "/orders/checkout"
-  );
+  api.get("/orders/checkout");
 
-export const placeCODOrder = (
-  data
-) =>
-  api.post(
-    "/orders/cod",
-    data
-  );
+// Place COD order
+export const placeCODOrder = (data) =>
+  api.post("/orders/cod", data);
 
-export const getOrders = () =>
-  api.get(
-    "/orders/my-orders"
-  );
+// Create Razorpay Order
+export const createRazorpayOrder = (data) =>
+  api.post("/orders/razorpay", data);
+
+// Verify Razorpay Payment
+export const verifyPayment = (data) =>
+  api.post("/orders/verify", data);
+
+// User Orders
+export const getMyOrders = () =>
+  api.get("/orders/my-orders");

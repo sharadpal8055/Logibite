@@ -9,14 +9,15 @@ import calculateCart from "../utils/calculateCart.js";
 export const addToCart = async (req, res) => {
   try {
     const { foodId, quantity = 1 } = req.body;
-
-    if (!foodId) {
-      return res.status(400).json({
-        success: false,
-        message: "Food ID is required",
-      });
-    }
-
+if (
+  !Number.isInteger(quantity) ||
+  quantity < 1
+) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid quantity",
+  });
+}
     const food = await Food.findById(foodId);
 
 
@@ -135,12 +136,15 @@ export const updateCartQuantity =
 
       const { quantity } = req.body;
 
-      if (quantity < 1) {
-        return res.status(400).json({
-          success: false,
-          message: "Quantity must be at least 1",
-        });
-      }
+      if (
+  !Number.isInteger(quantity) ||
+  quantity < 1
+) {
+  return res.status(400).json({
+    success: false,
+    message: "Invalid quantity",
+  });
+}
 
       const cartItem =
         await Cart.findById(req.params.id)
@@ -177,11 +181,15 @@ export const updateCartQuantity =
 
       await cartItem.save();
 
-      res.status(200).json({
-        success: true,
-        message: "Quantity updated",
-        cartItem,
-      });
+    const updatedCart =
+  await Cart.findById(cartItem._id)
+    .populate("food");
+
+return res.status(200).json({
+  success: true,
+  message: "Quantity updated",
+  cartItem: updatedCart,
+});
 
     } catch (error) {
 

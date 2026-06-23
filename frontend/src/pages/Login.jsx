@@ -11,11 +11,14 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 
 import { loginUser } from "../services/authService";
-
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
+const location = useLocation();
 
+const from =
+  location.state?.from || "/";
 const navigate = useNavigate();
 
 const { login } = useAuth();
@@ -83,8 +86,9 @@ res.data.token
 toast.success(
 "Welcome Back!"
 );
-
-navigate("/");
+navigate(from, {
+  replace: true,
+});
 
 }
 catch(error){

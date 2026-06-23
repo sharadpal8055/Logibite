@@ -1,7 +1,7 @@
 import express from "express";
 
 import authMiddleware from "../middleware/authMiddleware.js";
-
+import adminMiddleware from "../middleware/adminMiddleware.js";
 import {
   placeCODOrder,
   createRazorpayOrder,
@@ -53,8 +53,10 @@ router.patch(
   cancelOrder
 );
 router.put(
-  "/status/:id",
-  updateOrderStatus
+"/status/:id",
+authMiddleware,
+adminMiddleware,
+updateOrderStatus
 );
 
 export default router;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 import AuthLayout from "../components/layout/AuthLayout";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
@@ -12,7 +12,10 @@ import { useAuth } from "../context/AuthContext";
 function Register() {
   const navigate = useNavigate();
   const { login } = useAuth();
+const location = useLocation();
 
+const from =
+  location.state?.from || "/";
   const [loading, setLoading] =
     useState(false);
 
@@ -102,7 +105,9 @@ function Register() {
         "Welcome to LogiBite!"
       );
 
-      navigate("/");
+     navigate(from, {
+  replace: true,
+});
     } catch (err) {
       toast.error(
         err.response?.data

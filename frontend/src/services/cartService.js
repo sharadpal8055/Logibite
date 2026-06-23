@@ -1,21 +1,45 @@
+
 import api from "./api";
+
+// ==============================
+// Add Item
+// ==============================
 
 export const addToCart = (data) =>
   api.post("/cart/add", data);
 
-export const getCart = () =>
-  api.get("/cart/my-cart");
+// ==============================
+// Get User Cart
+// ==============================
 
-export const updateCartQuantity = (
-  id,
-  quantity
-) =>
-  api.put(`/cart/${id}`, {
+export const getCart = async () => {
+  const response = await api.get("/cart/my-cart");
+
+  console.log("getCart Response:", response);
+
+  return response;
+};
+
+// ==============================
+// Update Quantity
+// ==============================
+
+export const updateCartItem = (id, quantity) =>
+  api.patch(`/cart/update/${id}`, {
     quantity,
   });
 
+// ==============================
+// Remove Item
+// ==============================
+
 export const removeCartItem = (id) =>
-  api.delete(`/cart/${id}`);
+  api.delete(`/cart/remove/${id}`);
+
+// ==============================
+// Clear Cart
+// ==============================
 
 export const clearCart = () =>
   api.delete("/cart/clear");
+

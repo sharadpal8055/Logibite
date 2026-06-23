@@ -13,10 +13,13 @@ export const AuthProvider = ({
 }) => {
 
   const [user, setUser] =
-    useState(null);
+  useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+const [loading, setLoading] =
+  useState(true);
+
+const isAuthenticated =
+  !!user;
 
   useEffect(() => {
 
@@ -68,16 +71,15 @@ export const AuthProvider = ({
 
   return (
 
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        login,
-        logout,
-        isAuthenticated:
-          !!user,
-      }}
-    >
+  <AuthContext.Provider
+  value={{
+    user,
+    loading,
+    login,
+    logout,
+    isAuthenticated,
+  }}
+>
 
       {children}
 

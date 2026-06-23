@@ -1,31 +1,39 @@
 import { Star } from "lucide-react";
 import { toast } from "react-toastify";
 
-import { addToCart } from "../../services/cartService";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function RestaurantMenu({ foods }) {
 
+  const { addItem } = useCart();
+  const { isAuthenticated } = useAuth();
+const navigate = useNavigate();
+
+
   const handleAddToCart = async (foodId) => {
+  if (!isAuthenticated) {
+    toast.info("Please login to add items to your cart.");
 
-    try {
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
 
-      await addToCart({
-        foodId,
-        quantity: 1,
-      });
+    return;
+  }
 
-      toast.success("Added to Cart");
+  try {
+    await addItem(foodId, 1);
 
-    } catch (error) {
-
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to add item"
-      );
-
-    }
-
-  };
+    toast.success("Added to Cart");
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+      "Something went wrong"
+    );
+  }
+};
 
   return (
 
@@ -86,7 +94,17 @@ function RestaurantMenu({ foods }) {
 
                 <button
                   onClick={() => handleAddToCart(food._id)}
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-xl transition"
+                  className="
+                    bg-orange-500
+                    hover:bg-orange-600
+                    text-white
+                    px-6
+                    py-3
+                    rounded-xl
+                    transition-all
+                    duration-300
+                    active:scale-95
+                  "
                 >
                   ADD
                 </button>

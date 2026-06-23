@@ -8,8 +8,22 @@ import {
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { LogOut } from "lucide-react";
+
+import { toast } from "react-toastify";
+
+import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+const { logout, isAuthenticated } = useAuth();
+
+const { clearAll } = useCart();
+  const { cartCount } = useCart();
   const [open, setOpen] =
     useState(false);
 
@@ -35,6 +49,23 @@ function Navbar() {
       );
   }, []);
 
+  const handleLogout = async () => {
+
+  try {
+
+    await clearAll();
+
+  } catch {}
+
+  logout();
+
+  toast.success(
+    "Logged out successfully"
+  );
+
+  navigate("/");
+
+};
   return (
     <header
       className={`
@@ -144,47 +175,81 @@ function Navbar() {
 
           <div className="hidden lg:flex items-center gap-5">
 
-            <button className="relative">
+            <Link
+  to="/cart"
+  className="relative"
+>
+  <ShoppingCart size={26} />
 
-              <ShoppingCart
-                size={26}
-              />
+ <span
+  className="
+  absolute
+  -top-2
+  -right-2
+  bg-red-500
+  text-white
+  rounded-full
+  min-w-[20px]
+  h-5
+  px-1
+  flex
+  items-center
+  justify-center
+  text-xs
+  font-semibold
+"
+>
+  {cartCount}
+</span>
+</Link>
 
-              <span
-                className="
-                absolute
-                -top-2
-                -right-2
-                bg-red-500
-                text-white
-                rounded-full
-                text-xs
-                h-5
-                w-5
-                flex
-                items-center
-                justify-center
-                "
-              >
-                2
-              </span>
+            {
+isAuthenticated ? (
 
-            </button>
+<button
+onClick={handleLogout}
+className="
+flex
+items-center
+gap-2
+bg-red-500
+hover:bg-red-600
+text-white
+px-5
+py-3
+rounded-xl
+transition
+"
+>
 
-            <button
-              className="
-              h-11
-              w-11
-              rounded-full
-              bg-orange-500
-              text-white
-              flex
-              items-center
-              justify-center
-              "
-            >
-              <User />
-            </button>
+<LogOut size={18}/>
+
+Logout
+
+</button>
+
+) : (
+
+<Link
+to="/login"
+className="
+bg-orange-500
+hover:bg-orange-600
+text-white
+px-6
+py-3
+rounded-xl
+font-semibold
+transition
+"
+>
+
+Login
+
+</Link>
+
+)
+}
 
           </div>
 
